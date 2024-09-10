@@ -15,8 +15,8 @@ namespace LibraryManagementSystem.Services
 
         public void AddBook(string id, string title, string author)
         {
-            if(_bookRepository.FindBook(id)?.Id is null)            
-            _bookRepository.AddBook(new Book(id, title, author));
+            if (_bookRepository.FindBook(id)?.Id is null)
+                _bookRepository.AddBook(new Book(id, title, author));
         }
 
         public Book RemoveBook(string id)
@@ -24,11 +24,11 @@ namespace LibraryManagementSystem.Services
             return _bookRepository.RemoveBook(id);
         }
 
-        public bool CheckOutBook(string id)
+        public Book CheckOutBook(string id)
         {
             var book = _bookRepository.FindBook(id);
             book?.CheckOut();
-            return book.IsCheckedOut;
+            return book;
         }
         public Book? FindBook(string id)
         {

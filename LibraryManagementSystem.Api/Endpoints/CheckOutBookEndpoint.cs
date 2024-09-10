@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 
 namespace LibraryManagementSystem.Endpoints
 {
-    public class CheckOutBookEndpoint : Endpoint<RequestId, ResponseResult<bool>>
+    public class CheckOutBookEndpoint : Endpoint<RequestId, ResponseResult<Book>>
     {
         private readonly IBookService _bookService;
 
@@ -23,8 +23,8 @@ namespace LibraryManagementSystem.Endpoints
 
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
-            var isCheckedOut = _bookService.CheckOutBook(req.Id);
-            await SendAsync(new ResponseResult<bool> {Data = isCheckedOut,  Message = isCheckedOut?"Book checkout successfully!": "Book not checkout" });
+            var checkedOutBook = _bookService.CheckOutBook(req.Id);
+            await SendAsync(new ResponseResult<Book> {Data = checkedOutBook });
         }
     }
 }

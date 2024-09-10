@@ -2,28 +2,13 @@ using global::LibraryManagementSystem.Models;
 using global::LibraryManagementSystem.Repositories;
 using global::LibraryManagementSystem.Services;
 using Moq;
+using System.Net;
 using Xunit;
 
 namespace LibraryManagementSystem.Tests
 {
     public class BookServiceTests
     {
-
-        [Fact]
-        public void AddBook_ShouldAddNewBook_WhenBookDoesNotExist()
-        {
-            // Arrange
-            var mockRepository = new Mock<IBookRepository>();
-            mockRepository.Setup(r => r.FindBook(It.IsAny<string>())).Returns((Book)null);
-            var service = new BookService(mockRepository.Object);
-
-            // Act
-            service.AddBook("1", "2 States", "Chetan Bhagat");
-
-            // Assert
-            mockRepository.Verify(r => r.AddBook(It.IsAny<Book>()), Times.Once);
-        }
-
         [Fact]
         public void RemoveBook_ShouldCallRemoveBookOnRepository()
         {
@@ -88,6 +73,78 @@ namespace LibraryManagementSystem.Tests
         }
 
         [Fact]
+        public void AddBook_ShouldNotAddBook_WhenBookAlreadyExists()
+        {
+            // Arrange
+            var bookId = "1";
+            var bookTitle = "Book 1";
+            var bookAuthor = "Author 1";
+            var existingBook = new Book(bookId, bookTitle, bookAuthor);
+            var mockRepository = new Mock<IBookRepository>();
+            mockRepository.Setup(repo => repo.FindBook(bookId)).Returns(existingBook); // Simulate that the book already exists
+            var bookService = new BookService(mockRepository.Object);
+
+            // Act
+            bookService.AddBook(bookId, bookTitle, bookAuthor);
+
+            // Assert
+            mockRepository.Verify(repo => repo.AddBook(It.IsAny<Book>()), Times.Never); // Ensure AddBook is not called
+        }
+    
+
+        [Fact]
+        public void CheckOutBook_ShouldReturnFalse_WhenBookDoesNotExist()
+        {
+            // Arrange
+            var mockRepository = new Mock<IBookRepository>();
+            mockRepository.Setup(repo => repo.FindBook("1")).Returns((Book)null);
+            var service = new BookService(mockRepository.Object);
+
+            // Act
+            var result = service.CheckOutBook("1");
+
+            // Assert
+            Assert.Null(result);
+            mockRepository.Verify(repo => repo.FindBook("1"), Times.Once);
+        }
+
+        [Fact]
+        public void AddBook_ShouldAddBook_WhenBookDoesNotExist()
+        {
+            // Arrange
+            var bookId = "1";
+            var bookTitle = "Book 1";
+            var bookAuthor = "Author 1";
+            var mockRepository = new Mock<IBookRepository>();
+            mockRepository.Setup(repo => repo.FindBook(bookId)).Returns((Book)null); // Simulate that the book does not exist
+            var bookService = new BookService(mockRepository.Object);
+
+            // Act
+            bookService.AddBook(bookId, bookTitle, bookAuthor);
+
+            // Assert
+            mockRepository.Verify(repo => repo.AddBook(It.Is<Book>(b =>
+                b.Id == bookId &&
+                b.Title == bookTitle &&
+                b.Author == bookAuthor)), Times.Once);
+        }
+
+        [Fact]
+        public void ReturnBook_ShouldReturnNull_WhenBookDoesNotExist()
+        {
+            // Arrange
+            var mockRepository = new Mock<IBookRepository>();
+            mockRepository.Setup(repo => repo.FindBook("1")).Returns((Book)null);
+            var bookService = new BookService(mockRepository.Object);
+
+            // Act
+            var result = bookService.ReturnBook("1");
+
+            // Assert
+            Assert.Null(result);
+            mockRepository.Verify(repo => repo.FindBook("1"), Times.Once);
+        }
+        [Fact]
         public void GetCheckedOutBooks_ShouldCallGetCheckedOutBooksOnRepository()
         {
             // Arrange
@@ -107,6 +164,22 @@ namespace LibraryManagementSystem.Tests
             Assert.Equal(books, result);
         }
 
+        [Fact]
+        public void CalculateLateFees_ShouldReturnZero_WhenBookDoesNotExist()
+        {
+            // Arrange
+            var mockRepository = new Mock<IBookRepository>();
+            var bookId = "1";
+            mockRepository.Setup(repo => repo.FindBook(bookId)).Returns((Book)null); // Simulate that the book does not exist
+            var service = new BookService(mockRepository.Object);
+
+            // Act
+            var result = service.CalculateLateFees(bookId);
+
+            // Assert
+            Assert.Equal(0, result);
+            mockRepository.Verify(repo => repo.FindBook(bookId), Times.Once);
+        }
         [Fact]
         public void CalculateLateFees_ShouldCallCalculateLateFeeOnBook()
         {
