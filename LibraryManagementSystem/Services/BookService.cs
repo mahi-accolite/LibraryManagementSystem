@@ -53,7 +53,9 @@ namespace LibraryManagementSystem.Services
         public double CalculateLateFees(string id)
         {
             var book = _bookRepository.FindBook(id);
-            return book?.CalculateLateFee() ?? 0;
-        }
+            if (book is null || !book.CheckedOutDate.HasValue) return 0;
+            var overdueDays = (int)(DateTime.Now - book.CheckedOutDate.Value).TotalDays - 7; // Assuming 7 days for checkout
+            return overdueDays > 0 ? overdueDays * 2 : 0;
+        }        
     }
 }

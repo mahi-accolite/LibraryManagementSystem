@@ -33,11 +33,6 @@ namespace LibraryManagementSystem.Models
             CheckedOutDate = null;
         }
 
-        public double CalculateLateFee()
-        {
-            if (!CheckedOutDate.HasValue) return 0;
-            var overdueDays = (int)(DateTime.Now - CheckedOutDate.Value).TotalDays - 7; // Assuming 7 days for checkout
-            return overdueDays > 0 ? overdueDays * 2 : 0;  
-        }
+        
     }
 }
