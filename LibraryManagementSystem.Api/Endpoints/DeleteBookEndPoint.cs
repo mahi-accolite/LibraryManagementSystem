@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    public class DeleteBookEndPoint : Endpoint<AddBookRequest, ResponseResult<Book>>
+    public class DeleteBookEndPoint : Endpoint<Book, ResponseResult<Book>>
     {
         private readonly IBookService _bookService;
         public DeleteBookEndPoint(IBookService bookService)
@@ -22,7 +22,7 @@ namespace LibraryManagementSystem.Api.Endpoints
             Delete("/books/{id}");
             AllowAnonymous();
         }
-        public override async Task HandleAsync(AddBookRequest req, CancellationToken ct)
+        public override async Task HandleAsync(Book req, CancellationToken ct)
         {
             _bookService.RemoveBook(req.Id);
             await SendAsync(new ResponseResult<Book> { Message = "Book Deleted successfully!" });

@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.Models
         public string Title { get; }
         public string Author { get; }
         public bool IsCheckedOut { get; private set; }
-        public DateTime? CheckedOutDate { get; private set; }
+        public DateTime? CheckedOutDate { get; set; }
 
         public Book(string id, string title, string author)
         {
@@ -37,7 +37,7 @@ namespace LibraryManagementSystem.Models
         public double CalculateLateFee()
         {
             if (!CheckedOutDate.HasValue) return 0;
-            var overdueDays = (DateTime.Now - CheckedOutDate.Value).TotalDays - 7; // Assuming 7 days for checkout
+            var overdueDays = (int)(DateTime.Now - CheckedOutDate.Value).TotalDays - 7; // Assuming 7 days for checkout
             return overdueDays > 0 ? overdueDays * 2 : 0;  
         }
     }

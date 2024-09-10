@@ -27,8 +27,8 @@ namespace LibraryManagementSystem.Api.Endpoints
 
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
-            _bookService.CalculateLateFees(req.Id);
-            await SendAsync(new ResponseResult<Book> { Message = "Check Late fee Amount" });
+            var fine = _bookService.CalculateLateFees(req.Id);
+            await SendAsync(new ResponseResult<Book> { Message = "Check Late fee Amount is"+ fine});
         }
     }
 }

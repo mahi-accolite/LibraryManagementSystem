@@ -14,8 +14,8 @@ namespace LibraryManagementSystem.Services
 
         public void AddBook(string id, string title, string author)
         {
-            var book = new Book(id, title, author);
-            _bookRepository.AddBook(book);
+            if(_bookRepository.FindBook(id)?.Id is null)            
+            _bookRepository.AddBook(new Book(id, title, author));
         }
 
         public void RemoveBook(string id)
