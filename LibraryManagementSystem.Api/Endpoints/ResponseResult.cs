@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    public class CheckOutBookRequest
+    public class ResponseResult<T>
     {
-        public string Id { get; set; }
+        public T Result { get; set; }
+        public string Message { get; set; }
     }
 }
