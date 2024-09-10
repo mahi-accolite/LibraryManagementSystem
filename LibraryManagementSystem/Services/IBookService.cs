@@ -10,5 +10,6 @@ namespace LibraryManagementSystem.Services
         void ReturnBook(string id);
         IEnumerable<Book> GetCheckedOutBooks();
         double CalculateLateFees(string id);
+        Book? FindBook(string id);
     }
 }

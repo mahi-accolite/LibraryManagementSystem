@@ -28,7 +28,10 @@ namespace LibraryManagementSystem.Services
             var book = _bookRepository.FindBook(id);
             book?.CheckOut();
         }
-
+        public Book? FindBook(string id)
+        {
+            return _bookRepository.FindBook(id);
+        }
         public void ReturnBook(string id)
         {
             var book = _bookRepository.FindBook(id);

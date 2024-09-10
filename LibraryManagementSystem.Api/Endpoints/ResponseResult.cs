@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    public class ResponseResult<T>
+    public class ResponseResult
     {
-        public T Result { get; set; }
         public string Message { get; set; }
     }
 }
