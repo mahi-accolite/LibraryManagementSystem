@@ -8,13 +8,12 @@ namespace LibraryManagementSystem.Tests
 {
     public class BookServiceTests
     {
-        private readonly Mock<IBookRepository> mockRepository;
-        private readonly List<Book> _books = new();
 
         [Fact]
         public void AddBook_ShouldAddNewBook_WhenBookDoesNotExist()
         {
-            // Arrange            
+            // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             mockRepository.Setup(r => r.FindBook(It.IsAny<string>())).Returns((Book)null);
             var service = new BookService(mockRepository.Object);
 
@@ -29,6 +28,7 @@ namespace LibraryManagementSystem.Tests
         public void RemoveBook_ShouldCallRemoveBookOnRepository()
         {
             // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             var service = new BookService(mockRepository.Object);
 
             // Act
@@ -42,6 +42,7 @@ namespace LibraryManagementSystem.Tests
         public void CheckOutBook_ShouldCallCheckOutOnBook()
         {
             // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             var book = new Book("1", "2 States", "Chetan Bhagat");
             mockRepository.Setup(r => r.FindBook("1")).Returns(book);
             var service = new BookService(mockRepository.Object);
@@ -57,6 +58,7 @@ namespace LibraryManagementSystem.Tests
         public void FindBook_ShouldCallFindBookOnRepository()
         {
             // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             var book = new Book("1", "2 States", "Chetan Bhagat");
             mockRepository.Setup(r => r.FindBook("1")).Returns(book);
             var service = new BookService(mockRepository.Object);
@@ -72,6 +74,7 @@ namespace LibraryManagementSystem.Tests
         public void ReturnBook_ShouldCallReturnOnBook()
         {
             // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             var book = new Book("1", "2 States", "Chetan Bhagat");
             book.CheckOut();
             mockRepository.Setup(r => r.FindBook("1")).Returns(book);
@@ -88,6 +91,7 @@ namespace LibraryManagementSystem.Tests
         public void GetCheckedOutBooks_ShouldCallGetCheckedOutBooksOnRepository()
         {
             // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             var books = new List<Book>
             {
                 new Book("1", "2 States", "Chetan Bhagat"),
@@ -107,6 +111,7 @@ namespace LibraryManagementSystem.Tests
         public void CalculateLateFees_ShouldCallCalculateLateFeeOnBook()
         {
             // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             var book = new Book("1", "2 States", "Chetan Bhagat");
             book.CheckOut();
             book.CheckedOutDate = DateTime.Now.AddDays(-14);
@@ -123,6 +128,7 @@ namespace LibraryManagementSystem.Tests
         public void CalculateLateFees_ShouldBookNotOverdue()
         {
             // Arrange
+            var mockRepository = new Mock<IBookRepository>();
             var book = new Book("1", "2 States", "Chetan Bhagat");
             book.CheckOut();
             book.CheckedOutDate = DateTime.Now;

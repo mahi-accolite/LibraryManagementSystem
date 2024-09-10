@@ -8,9 +8,9 @@ namespace LibraryManagementSystem.Services
     {
         private readonly IBookRepository _bookRepository;
 
-        public BookService(IBookRepository libraryRepository)
+        public BookService(IBookRepository bookRepository)
         {
-            _bookRepository = libraryRepository;
+            _bookRepository = bookRepository;
         }
 
         public void AddBook(string id, string title, string author)
