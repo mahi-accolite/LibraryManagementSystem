@@ -124,5 +124,22 @@ namespace LibraryManagementSystem.Tests
             // Assert
             Assert.Equal(7 * 2, result);
         }
+        [Fact]
+        public void CalculateLateFees_ShouldBookNotOverdue()
+        {
+            // Arrange
+            var mockRepository = new Mock<IBookRepository>();
+            var book = new Book("1", "2 States", "Chetan Bhagat");
+            book.CheckOut();
+            book.CheckedOutDate = DateTime.Now;
+            mockRepository.Setup(r => r.FindBook("1")).Returns(book);
+            var service = new BookService(mockRepository.Object);
+
+            // Act
+            var result = service.CalculateLateFees("1");
+
+            // Assert
+            Assert.Equal(0, result);
+        }
     }
 }
