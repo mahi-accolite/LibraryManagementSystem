@@ -11,13 +11,15 @@ namespace LibraryManagementSystem.Repositories
             _books.Add(book);
         }
 
-        public void RemoveBook(string id)
+        public Book RemoveBook(string id)
         {
             var book = FindBook(id);
             if (book != null)
             {
                 _books.Remove(book);
             }
+            return book;
+
         }
 
         public Book? FindBook(string id)

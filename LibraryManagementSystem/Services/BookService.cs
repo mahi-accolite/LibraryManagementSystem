@@ -19,9 +19,9 @@ namespace LibraryManagementSystem.Services
             _bookRepository.AddBook(new Book(id, title, author));
         }
 
-        public void RemoveBook(string id)
+        public Book RemoveBook(string id)
         {
-            _bookRepository.RemoveBook(id);
+            return _bookRepository.RemoveBook(id);
         }
 
         public bool CheckOutBook(string id)
@@ -34,11 +34,11 @@ namespace LibraryManagementSystem.Services
         {
             return _bookRepository.FindBook(id);
         }
-        public bool ReturnBook(string id)
+        public Book ReturnBook(string id)
         {
             var book = _bookRepository.FindBook(id);
             book?.Return();
-            return book is not null? true: false;
+            return book;
         }
 
         public IEnumerable<Book> GetCheckedOutBooks()
@@ -46,6 +46,10 @@ namespace LibraryManagementSystem.Services
             return _bookRepository.GetCheckedOutBooks();
         }
 
+        public IEnumerable<Book> GetAllBooks()
+        {
+            return _bookRepository.GetAllBooks();
+        }
         public double CalculateLateFees(string id)
         {
             var book = _bookRepository.FindBook(id);

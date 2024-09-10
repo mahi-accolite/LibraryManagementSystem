@@ -1,19 +1,15 @@
 ﻿using FastEndpoints;
 using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    public class ReturnBookEndPoint : Endpoint<RequestId, ResponseResult<Book>>
+    public class GetAllBooksEndpoint : Endpoint<RequestId, ResponseResult<IEnumerable<Book>>>
     {
         private readonly IBookService _bookService;
 
-        public ReturnBookEndPoint(IBookService bookService)
+        public GetAllBooksEndpoint(IBookService bookService)
         {
             _bookService = bookService;
         }
@@ -21,14 +17,14 @@ namespace LibraryManagementSystem.Api.Endpoints
 
         public override void Configure()
         {
-            Get("/books/return/{id}");
+            Get("/books");
             AllowAnonymous();
         }
 
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
-            var returnBook = _bookService.ReturnBook(req.Id);
-            await SendAsync(new ResponseResult<Book> {Data = returnBook });
+            var data = _bookService.GetAllBooks();
+            await SendAsync(new ResponseResult<IEnumerable<Book>> { Data = data });
         }
     }
 }

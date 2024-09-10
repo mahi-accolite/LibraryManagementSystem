@@ -13,7 +13,6 @@ namespace LibraryManagementSystem.Models
         public string Author { get; }
         public bool IsCheckedOut { get; private set; }
         public DateTime? CheckedOutDate { get; set; }
-
         public Book(string id, string title, string author)
         {
             Id = id;

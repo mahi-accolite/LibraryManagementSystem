@@ -24,8 +24,8 @@ namespace LibraryManagementSystem.Api.Endpoints
         }
         public override async Task HandleAsync(Book req, CancellationToken ct)
         {
-            _bookService.RemoveBook(req.Id);
-            await SendAsync(new ResponseResult<Book> { Message = "Book Deleted successfully!" });
+            var book = _bookService.RemoveBook(req.Id);
+            await SendAsync(new ResponseResult<Book> {Data = book, Message = "Book Deleted successfully!" });
         }
     }
 }
