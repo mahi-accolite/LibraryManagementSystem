@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    public class ReturnBookEndPoint : Endpoint<RequestId, ResponseResult<Book>>
+    public class ReturnBookEndPoint : Endpoint<RequestId, ResponseResult<bool>>
     {
         private readonly IBookService _bookService;
 
@@ -27,8 +27,8 @@ namespace LibraryManagementSystem.Api.Endpoints
 
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
-            _bookService.ReturnBook(req.Id);
-            await SendAsync(new ResponseResult<Book> { Message = "Book return successfully!" });
+            var returnBook = _bookService.ReturnBook(req.Id);
+            await SendAsync(new ResponseResult<bool> {Data = returnBook });
         }
     }
 }

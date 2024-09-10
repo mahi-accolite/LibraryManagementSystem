@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    public class CalculateLateFeeEndpoint : Endpoint<RequestId, ResponseResult<Book>>
+    public class CalculateLateFeeEndpoint : Endpoint<RequestId, ResponseResult<double>>
     {
         private readonly IBookService _bookService;
 
@@ -28,7 +28,7 @@ namespace LibraryManagementSystem.Api.Endpoints
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
             var fine = _bookService.CalculateLateFees(req.Id);
-            await SendAsync(new ResponseResult<Book> { Message = "Check Late fee Amount is"+ fine});
+            await SendAsync(new ResponseResult<double> {Data = fine, Message = "Check Late fee Amount is"+ fine});
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Repositories;
+using System.Net.Http.Headers;
 
 namespace LibraryManagementSystem.Services
 {
@@ -23,19 +24,21 @@ namespace LibraryManagementSystem.Services
             _bookRepository.RemoveBook(id);
         }
 
-        public void CheckOutBook(string id)
+        public bool CheckOutBook(string id)
         {
             var book = _bookRepository.FindBook(id);
             book?.CheckOut();
+            return book.IsCheckedOut;
         }
         public Book? FindBook(string id)
         {
             return _bookRepository.FindBook(id);
         }
-        public void ReturnBook(string id)
+        public bool ReturnBook(string id)
         {
             var book = _bookRepository.FindBook(id);
             book?.Return();
+            return book is not null? true: false;
         }
 
         public IEnumerable<Book> GetCheckedOutBooks()

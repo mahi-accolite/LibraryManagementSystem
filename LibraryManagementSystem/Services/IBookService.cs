@@ -6,8 +6,8 @@ namespace LibraryManagementSystem.Services
     {
         void AddBook(string id, string title, string author);
         void RemoveBook(string id);
-        void CheckOutBook(string id);
-        void ReturnBook(string id);
+        bool CheckOutBook(string id);
+        bool ReturnBook(string id);
         IEnumerable<Book> GetCheckedOutBooks();
         double CalculateLateFees(string id);
         Book? FindBook(string id);

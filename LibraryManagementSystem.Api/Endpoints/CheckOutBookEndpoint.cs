@@ -2,10 +2,11 @@
 using LibraryManagementSystem.Api.Endpoints;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Services;
+using System.Reflection.Metadata;
 
 namespace LibraryManagementSystem.Endpoints
 {
-    public class CheckOutBookEndpoint : Endpoint<RequestId, ResponseResult<Book>>
+    public class CheckOutBookEndpoint : Endpoint<RequestId, ResponseResult<bool>>
     {
         private readonly IBookService _bookService;
 
@@ -13,7 +14,6 @@ namespace LibraryManagementSystem.Endpoints
         {
             _bookService = bookService;
         }
-
 
         public override void Configure()
         {
@@ -23,8 +23,8 @@ namespace LibraryManagementSystem.Endpoints
 
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
-            _bookService.CheckOutBook(req.Id);
-            await SendAsync(new ResponseResult<Book> { Message = "Book checked out successfully!" });
+            var isCheckedOut = _bookService.CheckOutBook(req.Id);
+            await SendAsync(new ResponseResult<bool> {Data = isCheckedOut,  Message = isCheckedOut?"Book checkout successfully!": "Book not checkout" });
         }
     }
 }

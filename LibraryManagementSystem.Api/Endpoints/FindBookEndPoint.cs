@@ -27,8 +27,8 @@ namespace LibraryManagementSystem.Api.Endpoints
 
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
-            _bookService.FindBook(req.Id);
-            await SendAsync(new ResponseResult<Book> { Message = "Book found successfully!" });
+            var data = _bookService.FindBook(req.Id);
+            await SendAsync(new ResponseResult<Book> {Data = data, Message = "Book found successfully!" });
         }
     }
 }
