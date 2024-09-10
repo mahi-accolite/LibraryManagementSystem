@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Services;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    internal class FindBookEndPoint : Endpoint<RequestId, ResponseResult>
+    internal class FindBookEndPoint : Endpoint<RequestId, ResponseResult<Book>>
     {
         private readonly IBookService _bookService;
 
@@ -27,7 +28,7 @@ namespace LibraryManagementSystem.Api.Endpoints
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
             _bookService.FindBook(req.Id);
-            await SendAsync(new ResponseResult { Message = "Book found successfully!" });
+            await SendAsync(new ResponseResult<Book> { Message = "Book found successfully!" });
         }
     }
 }

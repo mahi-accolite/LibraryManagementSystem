@@ -5,7 +5,7 @@ using LibraryManagementSystem.Services;
 
 namespace LibraryManagementSystem.Api.Endpoints
 {
-    public class AddBookEndpoint : Endpoint<AddBookRequest, AddBookResponse>
+    public class AddBookEndpoint : Endpoint<AddBookRequest, ResponseResult<Book>>
     {
         private readonly IBookService _bookService;
 
@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.Api.Endpoints
         public override async Task HandleAsync(AddBookRequest req, CancellationToken ct)
         {
             _bookService.AddBook(req.Id, req.Title, req.Author);
-            await SendAsync(new AddBookResponse { Message = "Book added successfully!" });
+            await SendAsync(new ResponseResult<Book> { Message = "Book added successfully!" });
         }
     }
 }

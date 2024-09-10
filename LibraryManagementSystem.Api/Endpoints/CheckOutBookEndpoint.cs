@@ -1,10 +1,11 @@
 ﻿using FastEndpoints;
 using LibraryManagementSystem.Api.Endpoints;
+using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Services;
 
 namespace LibraryManagementSystem.Endpoints
 {
-    public class CheckOutBookEndpoint : Endpoint<RequestId, ResponseResult>
+    public class CheckOutBookEndpoint : Endpoint<RequestId, ResponseResult<Book>>
     {
         private readonly IBookService _bookService;
 
@@ -23,7 +24,7 @@ namespace LibraryManagementSystem.Endpoints
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
             _bookService.CheckOutBook(req.Id);
-            await SendAsync(new ResponseResult { Message = "Book checked out successfully!" });
+            await SendAsync(new ResponseResult<Book> { Message = "Book checked out successfully!" });
         }
     }
 }
