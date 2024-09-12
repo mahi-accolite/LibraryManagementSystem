@@ -15,6 +15,8 @@ namespace LibraryManagementSystem.Services
 
         public void AddBook(string id, string title, string author)
         {
+            //so?  if the book exists you don't add the new one?
+            //that is good.   but would you not want to inform the 
             if (_bookRepository.FindBook(id)?.Id is null)
                 _bookRepository.AddBook(new Book(id, title, author));
         }

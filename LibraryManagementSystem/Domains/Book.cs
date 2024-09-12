@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//why are there unused 'usings' here?   why is the namespace different than the actual physical location 
 namespace LibraryManagementSystem.Models
 {
     public class Book

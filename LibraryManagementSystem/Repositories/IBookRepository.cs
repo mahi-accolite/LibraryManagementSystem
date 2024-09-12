@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Models;
 
+//namespace should reflect its physical location
 namespace LibraryManagementSystem.Repositories
 {
     public interface IBookRepository

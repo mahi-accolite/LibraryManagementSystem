@@ -5,6 +5,8 @@ using Moq;
 using System.Net;
 using Xunit;
 
+//unused mosings.  not sure why global::... is used. 
+
 namespace LibraryManagementSystem.Tests
 {
     public class BookServiceTests
@@ -24,6 +26,10 @@ namespace LibraryManagementSystem.Tests
             // Act
             _bookService.RemoveBook("1");
 
+            // so you verify that this method was called?  did you not tell the mock to expect this call
+            // by using the _bookService.Setup(x => x.RemoveBook("1"))?
+            // that is the standard.
+            
             // Assert
             _mockRepository.Verify(r => r.RemoveBook("1"), Times.Once);
         }
@@ -112,6 +118,8 @@ namespace LibraryManagementSystem.Tests
             // Act
             _bookService.AddBook(bookId, bookTitle, bookAuthor);
 
+            //Greg:  this is good.  Can you think if a way to provide a generic way of doing this?
+            //       what way it would be used for other unit tests.
             // Assert
             _mockRepository.Verify(repo => repo.AddBook(It.Is<Book>(b =>
                 b.Id == bookId &&
@@ -151,6 +159,8 @@ namespace LibraryManagementSystem.Tests
         {
             // Arrange
             var bookId = "1";
+            
+            //Greg: you should not have to cast the returns null as a book at all.
             _mockRepository.Setup(repo => repo.FindBook(bookId)).Returns((Book)null); // Simulate that the book does not exist
             
             // Act

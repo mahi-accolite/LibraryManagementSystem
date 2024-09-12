@@ -27,6 +27,7 @@ namespace LibraryManagementSystem.Api.Endpoints
 
         public override async Task HandleAsync(RequestId req, CancellationToken ct)
         {
+            // I know this is just an exercise, but should the book service not also use async/await?
             var fine = _bookService.CalculateLateFees(req.Id);
             await SendAsync(new ResponseResult<double> {Data = fine, Message = "Check Late fee Amount is"+ fine});
         }
